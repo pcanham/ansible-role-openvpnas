@@ -1,0 +1,10 @@
+# vim: sw=2 ts=2 et :
+---
+certificate_email: certs@example.org
+openvpnas_dns: vpn.example.org
+ldap_realm: EXAMPLE
+ldap_server: 127.0.0.1
+ldap_bind_dn: "CN=svc_openvpnas,OU=Service Accounts,OU=Non-Geographic,OU=Regional Infrastructure Depts,DC=ad,DC=example,DC=org"
+ldap_bind_pw: "ExamplePassword"
+ldap_base_dn: "OU=Regions,DC=ad,DC=example,DC=org"
+ldap_add_req: "memberOf=CN=Dom VPN User,OU=Security Groups,OU=Non-Geographic,OU=Regional Infrastructure Depts,DC=ad,DC=example,DC=org"
