@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - ansible-role-openvpnas1
+    - pcanham.openvpnas

@@ -20,4 +20,4 @@
       failed_when: systemctl_status.rc > 1
 
   roles:
-    - role: pcanham.ansible-role-openvpnas
+    - role: pcanham.openvpnas
