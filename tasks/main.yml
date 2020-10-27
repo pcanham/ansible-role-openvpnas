@@ -9,10 +9,10 @@
         - "vars/main.yml"
   tags:
     - openvpn
-- include_tasks: env.yml
 - include_tasks: install-openvpn.yml
 - include_tasks: install-certbot.yml
   when: enable_letencrypt_config | bool
+- include_tasks: env.yml
 - include_tasks: config-certbot.yml
   when: enable_letencrypt_config | bool
 - include_tasks: config-openvpn-core.yml
