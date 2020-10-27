@@ -5,7 +5,7 @@
   register: pem_file
 - name: Set certbot with AWS Route 53
   command: >
-    "certbot certonly --dns-route53 --non-interactive --agree-tos
+    "/bin/certbot certonly --dns-route53 --non-interactive --agree-tos
     --email {{ certificate_email }} -d {{ openvpnas_dns }}
     --pre-hook 'service openvpnas stop' --post-hook 'service openvpnas start'"
   when: not pem_file.stat.exists
