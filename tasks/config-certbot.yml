@@ -8,6 +8,8 @@
     /bin/certbot certonly --dns-route53 --non-interactive --agree-tos
     --email {{ certificate_email }} -d {{ openvpnas_dns }}
     --pre-hook 'service openvpnas stop' --post-hook 'service openvpnas start'
+  notify:
+    - Reload service openvpnas
   when: not pem_file.stat.exists
 - name: Create Symlink for SSL Certs
   file:
@@ -18,4 +20,6 @@
     - { src_app: "/etc/letsencrypt/live/{{ openvpnas_dns }}/cert.pem", dst_app: "/usr/local/openvpn_as/etc/web-ssl/server.crt" }
     - { src_app: "/etc/letsencrypt/live/{{ openvpnas_dns }}/privkey.pem", dst_app: "/usr/local/openvpn_as/etc/web-ssl/server.key" }
     - { src_app: "/etc/letsencrypt/live/{{ openvpnas_dns }}/chain.pem", dst_app: "/usr/local/openvpn_as/etc/web-ssl/ca.crt" }
+  notify:
+    - Reload service openvpnas
   when: pem_file.stat.exists
