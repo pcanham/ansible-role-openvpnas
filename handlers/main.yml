@@ -1,2 +1,5 @@
 ---
-# handlers file for pcanham.openvpnas
+- name: Reload service openvpnas
+  service:
+    name: openvpnas
+    state: restarted

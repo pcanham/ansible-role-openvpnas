@@ -1,5 +1,5 @@
 ---
 - hosts: localhost
-  remote_user: root
+  remote_user: ec2-user
   roles:
-    - pcanham.openvpnas
+    - ansible-role-openvpnas
