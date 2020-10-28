@@ -3,42 +3,56 @@
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key host.name --value {{ openvpnas_dns }} ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"host.name\"') != openvpnas_dns
 - name: Set vpn.client.tls_version_min
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key vpn.client.tls_version_min --value 1.2 ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"vpn.client.tls_version_min\"') != "1.2"
 - name: Set vpn.client.tls_version_min_strict
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key vpn.client.tls_version_min_strict --value true ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"vpn.client.tls_version_min_strict\"') != "true"
 - name: Set vpn.server.tls_version_min
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key vpn.server.tls_version_min --value 1.2 ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"vpn.server.tls_version_min\"') != "1.2"
 - name: Set cs.tls_version_min
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key cs.tls_version_min --value 1.2 ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"cs.tls_version_min\"') != "1.2"
 - name: Set cs.tls_version_min_strict
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key cs.tls_version_min_strict --value true ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"cs.tls_version_min_strict\"') != "true"
 - name: Set vpn.client.config_text
   command: >
     /usr/local/openvpn_as/scripts/sacli
     --key vpn.client.config_text --value 'cipher AES-256-CBC' ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"vpn.client.config_text\"') != 'cipher AES-256-CBC'
 - name: Set cs.openssl_ciphersuites
@@ -47,6 +61,8 @@
     --key cs.openssl_ciphersuites
     --value 'EECDH+CHACHA20:EECDH+AES256:!EECDH+AES128:!RSA:!3DES:!MD5:!RC4:!ECDHE-RSA-AES256-SHA:!ECDHE-RSA-AES256-SHA3'
     ConfigPut
+  notify:
+    - Reload service openvpnas
   when: >
     jsondata_config | json_query('\"cs.openssl_ciphersuites\"')
     != 'EECDH+CHACHA20:EECDH+AES256:!EECDH+AES128:!RSA:!3DES:!MD5:!RC4:!ECDHE-RSA-AES256-SHA:!ECDHE-RSA-AES256-SHA3'
