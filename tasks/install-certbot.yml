@@ -23,6 +23,6 @@
 - name: Create Symlink for certbot-2 to certbot
   file:
     src: "usr/bin/certbot-2"
-    dest: "usr/bin/certbot"
+    dest: "/usr/bin/certbot"
     state: link
   when: certbot2_app.stat.exists
