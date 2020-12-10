@@ -1,0 +1,33 @@
+---
+- name: check parameter net.ipv4.ip_forward
+  shell: >
+    set -o pipefail &&
+    sysctl -a | grep net.ipv4.ip_forward | grep -o [0-9]*
+  args:
+    executable: /bin/bash
+  changed_when: false
+  register: net_ipv4_ip_forward
+- name: sysctl setting - net.ipv4.ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    reload: yes
+    sysctl_set: yes
+    sysctl_file: /etc/sysctl.d/20-openvpnas.conf
+  when: net_ipv4_ip_forward.stdout = 1
+- name: check parameter net.ipv6.conf.all.forwarding
+  shell: >
+    set -o pipefail &&
+    sysctl -a | grep net.ipv6.conf.all.forwarding | grep -o [0-9]*
+  args:
+    executable: /bin/bash
+  changed_when: false
+  register: net_ipv6_conf_all_forwarding
+- name: sysctl setting - net.ipv6.conf.all.forwarding
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: 1
+    reload: yes
+    sysctl_set: yes
+    sysctl_file: /etc/sysctl.d/20-openvpnas.conf
+  when: net_ipv6_conf_all_forwarding.stdout = 1
