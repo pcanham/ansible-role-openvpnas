@@ -11,7 +11,7 @@
     and (admin_user|length > 0)
     and (admin_password is defined)
     and (admin_password|length > 0)
-    and not admin_user_exists
+    and not admin_user_present
 - name: Setting admin password
   command: >
     /usr/local/openvpn_as/scripts/sacli
@@ -24,7 +24,7 @@
     and (admin_user|length > 0)
     and (admin_password is defined)
     and (admin_password|length > 0)
-    and jsondata_user_config | json_query([?starts_with(key, admin_user)])
+    and not admin_user_present
 - name: Set hostname
   command: >
     /usr/local/openvpn_as/scripts/sacli
