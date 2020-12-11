@@ -1,4 +1,30 @@
 ---
+- name: Create admin user
+  command: >
+    /usr/local/openvpn_as/scripts/sacli
+    -u {{ admin_user }} -k type -v user_connect UserPropPut
+  notify:
+    - Reload service openvpnas
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and (admin_password is defined)
+    and (admin_password|length > 0)
+    and not admin_user_exists
+- name: Setting admin password
+  command: >
+    /usr/local/openvpn_as/scripts/sacli
+    -u {{ admin_user }} --new_pass '{{ admin_password }}' SetLocalPassword
+  notify:
+    - Reload service openvpnas
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and (admin_password is defined)
+    and (admin_password|length > 0)
+    and jsondata_user_config | json_query([?starts_with(key, admin_user)])
 - name: Set hostname
   command: >
     /usr/local/openvpn_as/scripts/sacli
@@ -66,27 +92,3 @@
   when: >
     jsondata_config | json_query('\"cs.openssl_ciphersuites\"')
     != 'EECDH+CHACHA20:EECDH+AES256:!EECDH+AES128:!RSA:!3DES:!MD5:!RC4:!ECDHE-RSA-AES256-SHA:!ECDHE-RSA-AES256-SHA3'
-- name: Create admin user
-  command: >
-    /usr/local/openvpn_as/scripts/sacli
-    -u {{ admin_user }} -k type -v user_connect UserPropPut
-  notify:
-    - Reload service openvpnas
-  when: >
-    (create_admin_account|bool)
-    and (admin_user is defined)
-    and (admin_user|length > 0)
-    and (admin_password is defined)
-    and (admin_password|length > 0)
-- name: Setting admin password
-  command: >
-    /usr/local/openvpn_as/scripts/sacli
-    -u {{ admin_user }} --new_pass '{{ admin_password }}' SetLocalPassword
-  notify:
-    - Reload service openvpnas
-  when: >
-    (create_admin_account|bool)
-    and (admin_user is defined)
-    and (admin_user|length > 0)
-    and (admin_password is defined)
-    and (admin_password|length > 0)
