@@ -1,4 +1,32 @@
 ---
+- name: Create admin pam account
+  user:
+    name: '{{ admin_user }}'
+    comment: 'OpenVPNAS Admin Account'
+    createhome: no
+    shell: "/sbin/nologin"
+    password: "{{ admin_password | password_hash('sha512') }}"
+    state: present
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and (admin_password is defined)
+    and (admin_password|length > 0)
+    and not admin_user_present
+- name: Update openvpnas about PAM user account change
+  lineinfile:
+    path: /usr/local/openvpn_as/etc/as.conf
+    state: present
+    regexp: '^boot_pam_users.0=openvpn'
+    line: 'boot_pam_users.0={{ admin_user }}'
+  notify:
+    - Reload service openvpnas
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and not admin_user_present
 - name: Create admin user
   command: >
     /usr/local/openvpn_as/scripts/sacli
