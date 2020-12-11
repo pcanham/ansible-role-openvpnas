@@ -3,3 +3,6 @@ enable_ldap_config: true
 
 # Set this to false if you do not wish to configure letsencrypt integration with openvpnas
 enable_letencrypt_config: true
+
+# Create local admin account
+create_admin_account: false

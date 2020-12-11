@@ -1,4 +1,30 @@
 ---
+- name: Create admin user
+  command: >
+    /usr/local/openvpn_as/scripts/sacli
+    -u {{ admin_user }} -k prop_superuser -v true UserPropPut
+  notify:
+    - Reload service openvpnas
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and (admin_password is defined)
+    and (admin_password|length > 0)
+    and not admin_user_present
+- name: Setting admin password
+  command: >
+    /usr/local/openvpn_as/scripts/sacli
+    -u {{ admin_user }} --new_pass '{{ admin_password }}' SetLocalPassword
+  notify:
+    - Reload service openvpnas
+  when: >
+    (create_admin_account|bool)
+    and (admin_user is defined)
+    and (admin_user|length > 0)
+    and (admin_password is defined)
+    and (admin_password|length > 0)
+    and not admin_user_present
 - name: Set hostname
   command: >
     /usr/local/openvpn_as/scripts/sacli
