@@ -2,7 +2,7 @@
 - name: Create admin user
   command: >
     /usr/local/openvpn_as/scripts/sacli
-    -u {{ admin_user }} -k type -v user_connect UserPropPut
+    -u {{ admin_user }} -k prop_superuser -v true UserPropPut
   notify:
     - Reload service openvpnas
   when: >
