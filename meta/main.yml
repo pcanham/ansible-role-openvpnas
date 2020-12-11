@@ -11,7 +11,7 @@ galaxy_info:
         - 7
     - name: Amazon
       versions:
-        - "(Karoo)"
+        - all
   galaxy_tags: ['openvpnas']
 
 dependencies: []
