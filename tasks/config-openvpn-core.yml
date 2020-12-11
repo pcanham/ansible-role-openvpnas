@@ -1,8 +1,8 @@
 ---
 - name: Create admin pam account
   user:
-    name: '{{ admin_user }}'
-    comment: 'OpenVPNAS Admin Account'
+    name: "{{ admin_user }}"
+    comment: "OpenVPNAS Admin Account"
     createhome: no
     shell: "/sbin/nologin"
     password: "{{ admin_password | password_hash('sha512') }}"
@@ -18,8 +18,8 @@
   lineinfile:
     path: /usr/local/openvpn_as/etc/as.conf
     state: present
-    regexp: '^boot_pam_users.0=openvpn'
-    line: 'boot_pam_users.0={{ admin_user }}'
+    regexp: "^boot_pam_users.0=openvpn"
+    line: "boot_pam_users.0={{ admin_user }}"
   notify:
     - Reload service openvpnas
   when: >
