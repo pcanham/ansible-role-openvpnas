@@ -7,7 +7,7 @@
   command: >
     /bin/certbot certonly --dns-route53 --non-interactive --agree-tos
     --email {{ certificate_email }} -d {{ openvpnas_dns }}
-    --pre-hook 'service openvpnas stop' --post-hook 'service openvpnas start'
+    --pre-hook 'systemctl stop openvpnas.service' --post-hook 'systemctl start openvpnas.service'
   notify:
     - Reload service openvpnas
   when: not pem_file.stat.exists
